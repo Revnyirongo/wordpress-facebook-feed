@@ -48,21 +48,56 @@
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+/* Adjust cards based on post count */
+.bishops-feed-row.posts-1 .bishops-post-card {
+    width: calc(100% - 30px);
+}
+
+.bishops-feed-row.posts-2 .bishops-post-card {
+    width: calc(50% - 30px);
+}
+
+/* Default is 3 posts (33.333%) */
+
+.bishops-feed-row.posts-4 .bishops-post-card,
+.bishops-feed-row.posts-5 .bishops-post-card,
+.bishops-feed-row.posts-6 .bishops-post-card {
+    width: calc(33.333% - 30px);
+}
+
 @media (max-width: 991px) {
     .bishops-post-card {
-        width: calc(50% - 30px);
+        width: calc(50% - 30px) !important;
+    }
+    
+    .bishops-feed-row.posts-1 .bishops-post-card {
+        width: calc(100% - 30px) !important;
     }
 }
 
 @media (max-width: 575px) {
     .bishops-post-card {
-        width: calc(100% - 30px);
+        width: calc(100% - 30px) !important;
     }
 }
 
 .bishops-post-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* New styles for clickable cards */
+.bishops-post-clickable {
+    cursor: pointer;
+}
+
+.bishops-post-clickable:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.bishops-post-clickable:hover .bishops-post-org {
+    text-decoration: underline;
 }
 
 .bishops-post-header {
@@ -176,4 +211,13 @@
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23666" d="M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-4 6V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v14l4-4h10c.55 0 1-.45 1-1z"/></svg>');
     background-size: contain;
     background-repeat: no-repeat;
+}
+
+/* Error message styling */
+.bishops-feed-error {
+    width: 100%;
+    text-align: center;
+    color: #d32f2f;
+    padding: 20px;
+    font-weight: bold;
 }
