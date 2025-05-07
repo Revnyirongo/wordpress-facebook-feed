@@ -4,13 +4,19 @@ jQuery(document).ready(function($) {
     
     // If container exists on the page
     if (postsContainer.length) {
+        // Get settings - with defaults if not provided
+        const postCount = bishopsFBSettings.postCount || 3;
+        const postLength = bishopsFBSettings.postLength || 100;
+        const clickBehavior = bishopsFBSettings.clickBehavior || 'facebook';
+        
         // Make AJAX request to get the Facebook posts
         $.ajax({
             url: bishopsFBSettings.ajaxurl,
             type: 'GET',
             data: {
                 action: 'get_facebook_posts',
-                nonce: bishopsFBSettings.nonce
+                nonce: bishopsFBSettings.nonce,
+                post_count: postCount
             },
             success: function(response) {
                 if (response.success && response.data && response.data.data) {
@@ -43,7 +49,12 @@ jQuery(document).ready(function($) {
             const formattedDate = formatDate(postDate);
             
             // Get the post message or a default message
-            const message = post.message || 'Visit our Facebook page for more information.';
+            let message = post.message || 'Visit our Facebook page for more information.';
+            
+            // Limit the message length based on settings
+            if (message.length > postLength) {
+                message = message.substring(0, postLength) + '...';
+            }
             
             // Get media content (photo or video)
             let mediaContent = '';
@@ -53,7 +64,7 @@ jQuery(document).ready(function($) {
                 if (attachment.media_type === 'video' && attachment.media && attachment.media.image) {
                     // Video with thumbnail
                     mediaContent = `
-                        <div class="bishops-post-video">
+                        <div class="bishops-post-video" data-post-id="${post.id}">
                             <img src="${attachment.media.image.src}" alt="Video thumbnail">
                             <div class="bishops-play-button">
                                 <div class="bishops-play-icon"></div>
@@ -70,9 +81,12 @@ jQuery(document).ready(function($) {
             const likeCount = post.likes && post.likes.summary ? post.likes.summary.total_count : 0;
             const commentCount = post.comments && post.comments.summary ? post.comments.summary.total_count : 0;
             
+            // Add click class if needed
+            const clickClass = clickBehavior === 'facebook' ? 'bishops-post-clickable' : '';
+            
             // Create post HTML
             const postHTML = `
-                <div class="bishops-post-card">
+                <div class="bishops-post-card ${clickClass}" data-post-id="${post.id}">
                     <div class="bishops-post-header">
                         <img class="bishops-post-logo" src="https://graph.facebook.com/${post.id.split('_')[0]}/picture" alt="Page Logo">
                         <div class="bishops-post-org">Malawi Conference of Catholic Bishops</div>
@@ -93,16 +107,27 @@ jQuery(document).ready(function($) {
             postsContainer.append(postHTML);
         });
         
-        // Add click event for videos to open Facebook post
-        $('.bishops-post-video').on('click', function() {
-            const postCard = $(this).closest('.bishops-post-card');
-            const postIndex = postCard.index();
+        // Handle click events based on settings
+        if (clickBehavior === 'facebook') {
+            // Add click event for all clickable posts
+            $('.bishops-post-clickable').on('click', function() {
+                const postId = $(this).data('post-id');
+                if (postId) {
+                    const postUrl = `https://www.facebook.com/${postId}`;
+                    window.open(postUrl, '_blank');
+                }
+            });
             
-            if (posts[postIndex] && posts[postIndex].id) {
-                const postUrl = `https://www.facebook.com/${posts[postIndex].id}`;
-                window.open(postUrl, '_blank');
-            }
-        });
+            // Add click event for videos to open Facebook post (for backward compatibility)
+            $('.bishops-post-video').on('click', function(e) {
+                e.stopPropagation(); // Prevent double triggering if post is also clickable
+                const postId = $(this).data('post-id');
+                if (postId) {
+                    const postUrl = `https://www.facebook.com/${postId}`;
+                    window.open(postUrl, '_blank');
+                }
+            });
+        }
     }
     
     // Show error message
