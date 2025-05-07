@@ -1,0 +1,179 @@
+.bishops-feed-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.bishops-feed-title {
+    text-align: center;
+    color: #e6b800;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.bishops-feed-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.bishops-feed-loading {
+    width: 100%;
+    text-align: center;
+    padding: 30px;
+}
+
+.bishops-feed-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: #3b5998;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.bishops-post-card {
+    width: calc(33.333% - 30px);
+    margin: 0 15px 30px;
+    border-radius: 6px;
+    transition: transform 0.3s;
+    background-color: #f8f9fa;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 991px) {
+    .bishops-post-card {
+        width: calc(50% - 30px);
+    }
+}
+
+@media (max-width: 575px) {
+    .bishops-post-card {
+        width: calc(100% - 30px);
+    }
+}
+
+.bishops-post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.bishops-post-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+}
+
+.bishops-post-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.bishops-post-org {
+    font-weight: bold;
+    color: #3b5998;
+    flex-grow: 1;
+}
+
+.bishops-post-date {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.bishops-post-content {
+    padding: 0 15px 15px;
+}
+
+.bishops-post-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.bishops-post-video {
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+}
+
+.bishops-post-video::before {
+    content: "";
+    display: block;
+    padding-top: 56.25%; /* 16:9 aspect ratio */
+}
+
+.bishops-post-video img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bishops-play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70px;
+    height: 70px;
+    background-color: rgba(255,255,255,0.8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bishops-play-icon {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 15px 0 15px 25px;
+    border-color: transparent transparent transparent #333;
+}
+
+.bishops-post-stats {
+    display: flex;
+    padding: 10px 15px;
+    border-top: 1px solid #e6e6e6;
+    color: #666;
+}
+
+.bishops-post-likes, 
+.bishops-post-comments {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.bishops-post-likes:before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23666" d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-1.91l-.01-.01L23 10z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.bishops-post-comments:before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23666" d="M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-4 6V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v14l4-4h10c.55 0 1-.45 1-1z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
